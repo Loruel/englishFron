@@ -1,128 +1,125 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { englishFunction } from '../context/Context'
 
 export default function EditProfile() {
-    return (
-        <div className='pl-10 pr-10 pt-5 pb-5 w-full flex'>
+  const { user, updateProfileMutation } = englishFunction()
 
+  const [email, setEmail] = useState(user?.email || '')
+  const [phone, setPhonel] = useState(user?.phone || '')
+  const [password, setPassword] = useState(user?.password || '')
 
-            <div className='w-3/12 h-full flex flex-col justify-center'>
-                <div className='flex justify-center items-center'>
-                    <figure className='rounded-full overflow-hidden flex w-52 h-52 mt-2 bg-yellow-200'>
-                        <img
-                            className='object-cover'
-                            src="/profileDefaultBoy.png" alt="" />
-                    </figure>
-                </div>
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem('authToken')
 
-                <Link
-                    to={'/profile'}
-                    className='h-full'>
-                    <div className='w-full h-full flex justify-center items-end'>
-                        <button className='bg-green-600 w-1/2 h-1/6 rounded-lg text-white font-semibold mb-6'>
-                            Save
-                        </button>
-                    </div>
-                </Link>
+    updateProfileMutation.mutate({
+      token,
+      userData: { email, phone, password }
+    })
+  }
 
+  return (
+    <div className='pl-4 pr-4 pt-2 mb-5 w-full'>
+      <div className='bg-white pl-5 pr-5 pt-2 pb-5 w-full flex flex-col rounded-lg shadow-md shadow-black lg:grid lg:grid-cols-3'>
+
+        <div className='relative flex flex-col justify-center'>
+          <div className='relative flex justify-center items-center'>
+            <figure className='rounded-full overflow-hidden flex w-40 h-40 mt-2 bg-yellow-200'>
+              <img
+                className='object-cover'
+                src="/profileDefaultBoy.png" alt="" />
+            </figure>
+          </div>
+          <figure className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-1 bg-black opacity-60 rounded-full w-40 h-40 flex justify-center items-center'>
+            <img src="/addphoto.svg" alt="" />
+          </figure>
+        </div>
+
+        <div className='h-full p-1 flex lg:col-span-2'>
+
+          <div className='w-2/6 text-base flex flex-col gap-y-1'>
+            <p className='flex justify-end items-center'>
+              Name:
+            </p>
+            <p className='flex justify-end items-center'>
+              Last:
+            </p>
+            <p className='flex justify-end items-center'>
+              Matricula:
+            </p>
+            <p className='flex justify-end items-center'>
+              Nivel:
+            </p>
+            <p className='flex justify-end items-center'>
+              Teacher:
+            </p>
+            <p className='flex justify-end items-center'>
+              Mail:
+            </p>
+            <p className='flex justify-end items-center'>
+              Phone:
+            </p>
+            <p className='flex justify-end items-center text-sm mt-1'>
+              New Password:
+            </p>
+            <p className='flex justify-end items-center text-sm mt-1'>
+              New Password:
+            </p>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className='text-base flex flex-col gap-y-1'>
+            <p className='flex justify-start ml-2 items-center'>
+              {user?.first_name}
+            </p>
+            <p className='flex justify-start ml-2 items-center'>
+              {user?.last_name}
+            </p>
+            <p className='flex justify-start ml-2 items-center'>
+              {user?.registration_number}
+            </p>
+            <p className='flex justify-start ml-2 items-center'>
+              {user?.level}
+            </p>
+            <p className='flex justify-start ml-2 items-center'>
+              {user?.teacher}
+            </p>
+            <input
+              className='ml-2 w-11/12 h-6 border-gray-300 border rounded-md text-sm p-1'
+              type="text"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              } />
+            <input
+              className='ml-2 w-11/12 h-6 border-gray-300 border rounded-md text-sm p-1'
+              type="text"
+              value={phone}
+              onChange={(e) =>
+                setPhonel(e.target.value)
+              } />
+            <input
+              className='ml-2 w-11/12 h-6 border-gray-300 border rounded-md text-sm p-1'
+              type="password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              } />
+            <input
+              className='ml-2 w-11/12 h-6 border-gray-300 border rounded-md text-sm p-1'
+              type="password" />
+
+            <div className='w-full h-full flex justify-center items-end mt-5'>
+              <button className='bg-green-600 w-full rounded-lg text-white font-semibold mb-6'>
+                Save
+              </button>
             </div>
-
-            <div className='w-9/12 h-full p-2 pl-10 border-black border-l flex'>
-
-                <div className='w-3/12 text-xl'>
-                    <p className='h-16 flex justify-end items-center'>
-                        Name:
-                    </p>
-                    <p className='h-16 flex justify-end items-center'>
-                        Last Name:
-                    </p>
-                    <p className='h-16 flex justify-end items-center'>
-                        Matricula:
-                    </p>
-                    <p className='h-16 flex justify-end items-center'>
-                        Nivel:
-                    </p>
-                    <p className='h-16 flex justify-end items-center'>
-                        Teacher:
-                    </p>
-                    <p className='h-16 flex justify-end items-center'>
-                        Mail:
-                    </p>
-                    <p className='h-16 flex justify-end items-center'>
-                        Phone:
-                    </p>
-                    <p className='h-16 flex justify-end items-center'>
-                        Password:
-                    </p>
-
-
-
-                </div>
-
-                <div className='w-9/12 text-xl'>
-                    <div>
-                        <div className='h-16 flex flex-col justify-start ml-4'>
-                            <p className='font-light text-xs italic'>
-                                Francisco Manuel
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                        <div className='h-16 flex flex-col justify-start ml-4 '>
-                            <p className='font-light text-xs italic'>
-                                Vazquez Luna
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                        <div className='h-16 flex flex-col justify-start ml-4 '>
-                            <p className='font-light text-xs italic'>
-                                CF0000000001
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                        <div className='h-16 flex flex-col justify-start ml-4 '>
-                            <p className='font-light text-xs italic'>
-                                A1
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                        <div className='h-16 flex flex-col justify-start ml-4 '>
-                            <p className='font-light text-xs italic'>
-                                Cecilia Pacheco
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                        <div className='h-16 flex flex-col justify-start ml-4 '>
-                            <p className='font-light text-xs italic'>
-                                francisco@mail.com
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                        <div className='h-16 flex flex-col justify-start ml-4 '>
-                            <p className='font-light text-xs italic'>
-                                5511223344
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                        <div className='h-16 flex flex-col justify-start ml-4 '>
-                            <p className='font-light text-xs italic'>
-                                ************
-                            </p>
-                            <input
-                                className='w-10/12 border border-black rounded-md pl-2' />
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
+          </form>
 
         </div>
-    )
+
+      </div>
+    </div>
+  )
 }
