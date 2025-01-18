@@ -5,6 +5,7 @@ import { login, updateUser } from "../api/user.Api"
 import { allLessons, getLessonById } from "../api/lesson.Api";
 import { allUserLesson } from "../api/userLesson.Api"
 import { allIncidents, getIncidentById, createIncident, deletIncident } from "../api/incident.Api"
+import { allExamsQuestions, allExams } from "../api/exam.Api";
 
 const englishContext = createContext()
 
@@ -18,6 +19,9 @@ export function EnglishProvider({ children }) {
 
     const [incident, setIncident] = useState(null)
     const [incidents, setIncidents] = useState([])
+
+    const [exams, setExams] = useState(null)
+    const [questions, setQuestions] = useState(null)
 
     const [openModal, setOpenModal] = useState(false)
     const setLocation = useNavigate()
@@ -102,7 +106,7 @@ export function EnglishProvider({ children }) {
 
     const getLessonOfTheDay = () => {
         const today = new Date();
-        const startDate = new Date("2025-01-13"); // Cambia esta fecha según el inicio del programa
+        const startDate = new Date("2025-01-15"); // Cambia esta fecha según el inicio del programa
         let dayCounter = 0;
 
         // Iterar desde el inicio hasta hoy, excluyendo fines de semana
@@ -172,6 +176,34 @@ export function EnglishProvider({ children }) {
         }
     }) //ELIMINAR UN INCIDENTE
 
+    /////////////////////////////EXAMS AND QUESTIONS
+
+    useEffect(() => {
+        const fetchExams = async () => {
+            try {
+                const res = await allExams()
+                setExams(res.data)
+            } catch (error) {
+                console.error('Error fetching exams:', error)
+            }
+        }
+
+        fetchExams()
+    }, [])
+
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            try {
+                const res = await allExamsQuestions()
+                setQuestions(res.data)
+            } catch (error) {
+                console.error('Error fetching questions:', error)
+            }
+        }
+
+        fetchQuestions()
+    }, [])
+
     return (
 
         <englishContext.Provider value={{
@@ -196,6 +228,9 @@ export function EnglishProvider({ children }) {
             fetchIncidentById,
             createIncidentMutation,
             deleteIncidentMutation,
+            //exam
+            exams,
+            questions
         }}>
             {children}
         </englishContext.Provider>

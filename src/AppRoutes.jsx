@@ -14,6 +14,7 @@ import OneLesson from './pages/OneLesson'
 import HomeLesson from './pages/HomeLesson'
 import Exam from './pages/Exam'
 import OneExam from './pages/OneExam'
+import Exams from './pages/Exams'
 /* import ProtectedRoutes from './components/ProtectedRoutes' */
 
 export default function AppRoutes() {
@@ -32,8 +33,10 @@ export default function AppRoutes() {
                 <Route path='/homelesson/:id' element={<HomeLesson />} />
                 <Route path='/newincident' element={<Incident />} />
                 <Route path='/incident' element={<IncidentPrincipal />} />
+                <Route path='/exams' element={<Exams />} />
                 <Route path='/exam' element={<Exam />} />
                 <Route path='/examone' element={<OneExam />} />
+
 
             </Route>
             {/* </Route> */}
