@@ -5,7 +5,7 @@ import { login, updateUser } from "../api/user.Api"
 import { allLessons, getLessonById } from "../api/lesson.Api";
 import { allUserLesson } from "../api/userLesson.Api"
 import { allIncidents, getIncidentById, createIncident, deletIncident } from "../api/incident.Api"
-import { allExamsQuestions, allExams } from "../api/exam.Api";
+import { allExamsQuestions, allExams, allQuestionsOptions } from "../api/exam.Api";
 
 const englishContext = createContext()
 
@@ -22,8 +22,12 @@ export function EnglishProvider({ children }) {
 
     const [exams, setExams] = useState(null)
     const [questions, setQuestions] = useState(null)
+    const [options, setOptions] = useState(null)
 
     const [openModal, setOpenModal] = useState(false)
+
+    const [language, setLanguage] = useState('en')
+
     const setLocation = useNavigate()
 
     /////////////////////////////OTROS
@@ -31,6 +35,10 @@ export function EnglishProvider({ children }) {
     const toggleModal = () => {
         setOpenModal(!openModal)
     } //ABRE Y CIERRA EL MODAL
+
+    const toggleLanguage = () => {
+        setLanguage(prevLanguage => prevLanguage === 'en' ? 'es' : 'en');
+    };
 
     /////////////////////////////USUARIOS
 
@@ -106,7 +114,7 @@ export function EnglishProvider({ children }) {
 
     const getLessonOfTheDay = () => {
         const today = new Date();
-        const startDate = new Date("2025-01-15"); // Cambia esta fecha según el inicio del programa
+        const startDate = new Date("2025-01-20"); // Cambia esta fecha según el inicio del programa
         let dayCounter = 0;
 
         // Iterar desde el inicio hasta hoy, excluyendo fines de semana
@@ -204,9 +212,24 @@ export function EnglishProvider({ children }) {
         fetchQuestions()
     }, [])
 
+    useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                const res = await allQuestionsOptions()
+                setOptions(res.data)
+            } catch (error) {
+                console.error('Error fetching options:', error)
+            }
+        }
+
+        fetchOptions()
+    }, [])
+
     return (
 
         <englishContext.Provider value={{
+            language,
+            toggleLanguage,
             openModal,
             setOpenModal,
             toggleModal,
@@ -230,7 +253,8 @@ export function EnglishProvider({ children }) {
             deleteIncidentMutation,
             //exam
             exams,
-            questions
+            questions,
+            options
         }}>
             {children}
         </englishContext.Provider>

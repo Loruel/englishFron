@@ -1,11 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { englishFunction } from '../context/Context'
+import { allIncidents } from '../api/incident.Api'
+import { useQuery } from '@tanstack/react-query'
 
 export default function IncidentPrincipal() {
-    const { incidents, user } = englishFunction()
+    const { /* incidents, */ user } = englishFunction()
 
-    const userIncident = incidents.filter(incident => incident?.user_id === user?.user_id)
+    const { data: incidents } = useQuery({
+        queryKey: ['incidents'],
+        queryFn: allIncidents,
+    })
+
+    console.log(incidents)
+
+    const userIncident = Array.isArray(incidents) ? incidents.filter(incident => incident?.user_id === user?.user_id) : []
+
 
     const getStatusColor = (status) => {
         const statusColors = {

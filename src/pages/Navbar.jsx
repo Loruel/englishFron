@@ -7,7 +7,8 @@ export default function Navbar() {
 
 
     return (
-        <div className='overflow-y-hidden bg-gray-200 dark:bg-xustomDarck'>
+        <div 
+        className='overflow-y-hidden bg-gray-200 dark:bg-xustomDarck'>
 
             <div className='pl-4 pr-4 pb-2 dark:'>
                 <PerfilBar />

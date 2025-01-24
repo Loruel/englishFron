@@ -1,6 +1,9 @@
 import React from 'react'
+import { englishFunction } from '../../context/Context'
 
 export default function ButtomZoom() {
+    const { language } = englishFunction()
+
     return (
         <a
             href="https://us04web.zoom.us/j/71074453847?pwd=CvKBsJSK6sXbo7g47lJTDBRFlCmrz6.1"
@@ -16,7 +19,7 @@ export default function ButtomZoom() {
                 </div>
                 <div className='lg:h-14 lg:flex lg:items-end'>
                     <p className='ml-2'>
-                        Class Link
+                        {language === 'en' ? 'Class Link' : 'Link de lección'}
                     </p>
                 </div>
             </div>

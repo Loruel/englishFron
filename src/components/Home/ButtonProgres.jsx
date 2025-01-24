@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { englishFunction } from '../../context/Context';
 
 export default function ButtonProgres() {
-    const { userLessons, user } = englishFunction();
+    const { userLessons, user, language } = englishFunction();
     const [completionPercentage, setCompletionPercentage] = useState(0)
 
     useEffect(() => {
@@ -50,7 +50,8 @@ export default function ButtonProgres() {
                 </div>
                 <div className='-mt-1'>
                     <p>
-                        Nivel A1, Block 1
+
+                        {language === 'en' ? 'Nivel A1, Block 1' : 'Nivel A1, Bloque 1'}
                     </p>
                 </div>
             </div>

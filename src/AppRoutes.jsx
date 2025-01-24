@@ -35,7 +35,7 @@ export default function AppRoutes() {
                 <Route path='/incident' element={<IncidentPrincipal />} />
                 <Route path='/exams' element={<Exams />} />
                 <Route path='/exam' element={<Exam />} />
-                <Route path='/examone' element={<OneExam />} />
+                <Route path='/exam/:id' element={<OneExam />} />
 
 
             </Route>

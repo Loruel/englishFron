@@ -12,7 +12,7 @@ import ButtonExam from '../components/Home/ButtonExam'
 export default function Home2() {
     return (
         <>
-            <div className='flex h-screen'>
+            <div className='lg:flex lg:h-screen'>
 
                 <div className='hidden lg:block w-1/2 h-full pr-1 pl-4 mt-2 mb-2 overflow-y-auto'>
                     {/* <div className='bg-white pl-5 pr-5 pt-2 pb-5 w-full flex flex-col rounded-lg shadow-md shadow-black'> */}

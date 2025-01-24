@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { englishFunction } from '../context/Context'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function Incident() {
   const { createIncidentMutation, user } = englishFunction()
   const [errorMessage, setErrorMessage] = useState('')
-
+  
+  const queryClient = useQueryClient()
+  
   const handleCreateIncident = async e => {
     e.preventDefault()
     setErrorMessage('')
@@ -30,6 +33,7 @@ export default function Incident() {
         setErrorMessage(error.response?.data?.message || 'Error al crear el incidente.')
       },
       onSuccess: () => {
+        queryClient.invalidateQueries('incidents')
         setErrorMessage('') // Limpia cualquier error en caso de éxito.
       }
     })
