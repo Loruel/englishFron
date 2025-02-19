@@ -9,7 +9,7 @@ export default function ButtonExam() {
         <Link
             to={'/exams'}>
 
-            <div className='bg-white w-full h-full rounded-lg shadow-md shadow-black transform transition-transform duration-300 ease-in-out hover:scale-105'>
+            <div className='bg-white w-full h-full rounded-lg shadow-md shadow-black transform transition-transform duration-300 ease-in-out hover:scale-105 dark:bg-xustomDarckDark dark:text-white'>
                 <div className='w-full flex justify-end items-center h-10'>
                     <figure className='bg-yellow-400 w-7 lg:w-12 h-7 lg:h-12 rounded-full mr-2 lg:-mb-7 flex justify-center items-center p-1'>
                         <img

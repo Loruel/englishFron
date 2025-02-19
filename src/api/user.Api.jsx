@@ -17,7 +17,7 @@ export const getMyInformation = async token => {
 
 export const updateUser = async ({ token, userData }) => {
     const res = await axios.patch('http://localhost:3000/api/users/me', userData, {
-        headers: { Authorization: token }
+        headers: { Authorization: `Bearer ${token}` }
     })
     return res.data
 }

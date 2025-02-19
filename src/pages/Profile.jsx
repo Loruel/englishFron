@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { englishFunction } from '../context/Context'
 
 export default function Profile() {
-  const { user } = englishFunction()
+  const { user, language } = englishFunction()
 
   return (
     <div className='pl-4 pr-4 pt-2 mb-5 w-full '>
@@ -12,7 +12,7 @@ export default function Profile() {
         <div className='flex flex-col justify-center'>
 
           <p className='font-bold text-2xl mb-2'>
-            Profile
+            {language === 'en' ? 'Profile' : 'Perfil'}
           </p>
 
           <div className='flex justify-center items-center'>
@@ -28,65 +28,83 @@ export default function Profile() {
             className='h-full mt-2'>
             <div className='w-full h-full flex justify-center items-end'>
               <button className='bg-emerald-700 w-1/2 h-1/6 rounded-lg text-white font-semibold mb-6 lg:h-10'>
-                Edit profile
+                {language === 'en' ? 'Edit profile' : 'Editar perfil'}
               </button>
             </div>
           </Link>
         </div>
 
-        <div className='h-full p-1 flex lg:col-span-2'>
+        <div className='h-full p-1 flex flex-col'>
 
-          <div className='w-2/6 text-base flex flex-col gap-y-1 lg:gap-y-3 lg:w-1/6 lg:text-lg'>
-            <p className='flex justify-end items-center'>
-              Name:
+          <div className='flex w-full mb-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Name' : 'Nombre'}:
             </p>
-            <p className='flex justify-end items-center'>
-              Last:
-            </p>
-            <p className='flex justify-end items-center'>
-              Matricula:
-            </p>
-            <p className='flex justify-end items-center'>
-              Nivel:
-            </p>
-            <p className='flex justify-end items-center'>
-              Teacher:
-            </p>
-            <p className='flex justify-end items-center'>
-              Mail:
-            </p>
-            <p className='flex justify-end items-center'>
-              Phone:
-            </p>
-            <p className='flex justify-end items-center'>
-              Password:
+            <p className='w-4/6'>
+              {user?.first_name}
             </p>
           </div>
 
-          <div className='text-base flex flex-col gap-y-1 lg:gap-y-3 lg:text-lg'>
-            <p className='flex justify-start ml-2 items-center'>
-              {user?.first_name}
+          <div className='flex w-full mb-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Last Name' : 'Apellido'}:
             </p>
-            <p className='flex justify-start ml-2 items-center'>
+            <p className='w-4/6'>
               {user?.last_name}
             </p>
-            <p className='flex justify-start ml-2 items-center'>
-              {user?.registration_number}
+          </div>
+
+          <div className='flex w-full mt-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Student ID' : 'Matricula'}:
             </p>
-            <p className='flex justify-start ml-2 items-center'>
-              {user?.level}
+            <p className='w-4/6'>
+              {user?.last_name}
             </p>
-            <p className='flex justify-start ml-2 items-center'>
+          </div>
+
+          <div className='flex w-full mt-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Level' : 'Nivel'}:
+            </p>
+            <p className='w-4/6'>
+              {user?.level_id}
+            </p>
+          </div>
+
+          <div className='flex w-full mt-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Teacher' : 'Profesor'}:
+            </p>
+            <p className='w-4/6'>
               {user?.teacher}
             </p>
-            <p className='flex justify-start ml-2 items-center'>
+          </div>
+
+          <div className='flex w-full mt-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Mail' : 'Correo'}:
+            </p>
+            <p className='w-4/6'>
               {user?.email}
             </p>
-            <p className='flex justify-start ml-2 items-center'>
+          </div>
+
+          <div className='flex w-full mt-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Phone' : 'Telefono'}:
+            </p>
+            <p className='w-4/6'>
               {user?.phone}
             </p>
-            <p className='flex justify-start ml-2 items-center'>
-              ************
+          </div>
+
+          <div className='flex w-full mt-1'>
+            <p className='w-2/6 text-end pr-3'>
+              {language === 'en' ? 'Password' : 'Contraseña'}:
+            </p>
+            <p className='w-4/6'>
+              **************
             </p>
           </div>
 

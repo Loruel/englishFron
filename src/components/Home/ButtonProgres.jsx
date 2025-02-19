@@ -3,13 +3,18 @@ import { Link } from 'react-router-dom'
 import { englishFunction } from '../../context/Context';
 
 export default function ButtonProgres() {
-    const { userLessons, user, language } = englishFunction();
+    const { lessons, userLessons, user, level, language } = englishFunction();
     const [completionPercentage, setCompletionPercentage] = useState(0)
 
     useEffect(() => {
         if (user) {
             const userId = user.user_id;
-            const filteredLessons = userLessons.filter(userLesson => userLesson.user_id === userId);
+            const userLevelId = user.level_id // Obtén el level_id del usuario
+
+            // Filtrar las lecciones por user_id y level_id
+            const filteredLessons = userLessons.filter(userLesson =>
+                userLesson.user_id === userId && lessons.some(lesson => lesson.lessonId === userLesson.lesson_id && lesson.level_id === userLevelId)
+            );
 
             // Calcular el porcentaje de progreso
             const totalLessons = filteredLessons.length;
@@ -17,12 +22,11 @@ export default function ButtonProgres() {
             const progress = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
             setCompletionPercentage(progress);
         }
-    }, [user, userLessons])
+    }, [user, userLessons, lessons])
 
     return (
-        <Link
-            to={'/level'}>
-            <div className='bg-white w-full h-full flex flex-col items-center rounded-lg shadow-md shadow-black transform transition-transform duration-300 ease-in-out hover:scale-105'>
+        <Link to={'/level'}>
+            <div className='bg-white w-full h-full flex flex-col items-center rounded-lg shadow-md shadow-black transform transition-transform duration-300 ease-in-out hover:scale-105 dark:bg-xustomDarckDark dark:text-white'>
                 <div className='flex'>
                     <div className='p-2'>
                         <figure className="border-green-400 border w-24 lg:w-44 h-24 lg:h-44 ml-2 rounded-full overflow-hidden flex relative">
@@ -36,11 +40,6 @@ export default function ButtonProgres() {
                                     d={`M0,${100 - completionPercentage} Q25,${90 - completionPercentage} 50,${100 - completionPercentage} T100,${100 - completionPercentage} V100 H0 Z`}
                                     fill="#4CAF50"
                                 />
-                                {/* <path
-                                    d={`M100,${100 - completionPercentage} Q75,${90 - completionPercentage} 50,${100 - completionPercentage} T0,${100 - completionPercentage} V100 H100 Z`}
-                                    fill="#388E3C"
-                                /> */}
-
                             </svg>
                         </figure>
                     </div>
@@ -50,32 +49,31 @@ export default function ButtonProgres() {
                 </div>
                 <div className='-mt-1'>
                     <p>
-
                         {language === 'en' ? 'Nivel A1, Block 1' : 'Nivel A1, Bloque 1'}
                     </p>
                 </div>
             </div>
 
-
             <style>
                 {`
-          .wave-animation path {
-            animation: waveMove 3s infinite ease-in-out;
-          }
+                    .wave-animation path {
+                        animation: waveMove 3s infinite ease-in-out;
+                    }
 
-          @keyframes waveMove {
-            0% {
-              transform: translateX(0);
-            }
-            50% {
-              transform: translateX(10%);
-            }
-            100% {
-              transform: translateX(0);
-            }
-          }
-        `}
+                    @keyframes waveMove {
+                        0% {
+                            transform: translateX(0);
+                        }
+                        50% {
+                            transform: translateX(10%);
+                        }
+                        100% {
+                            transform: translateX(0);
+                        }
+                    }
+                `}
             </style>
         </Link>
     )
 }
+            

@@ -25,7 +25,7 @@ export default function Incident() {
       title,
       type,
       description,
-      user_id: user.user_id
+      id_user: user.user_id
     }
 
     createIncidentMutation.mutate(userData, {

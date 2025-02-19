@@ -72,11 +72,11 @@ export default function Home2() {
                         </div>
                     </div>
 
-                    <div className='mt-1'>
+                    {/* <div className='mt-1'>
                         <div className='p-1'>
                             <ButtonExam />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className='mt-1'>
                         <div className='p-1'>

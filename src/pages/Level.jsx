@@ -1,37 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import { englishFunction } from '../context/Context'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { englishFunction } from '../context/Context';
+import { Link } from 'react-router-dom';
 
 export default function Level() {
-  const { lessons, userLessons, user } = englishFunction()
+  const { lessons, userLessons, user, level, updateUserLessonMutation } = englishFunction()
   const [filteredUserLessons, setFilteredUserLessons] = useState([])
   const [completionPercentage, setCompletionPercentage] = useState(0)
+  const [userLevel, setUserLevel] = useState(null)
 
 
   useEffect(() => {
     if (user) {
       const userId = user.user_id
-      const filtered = userLessons.filter(userLesson => userLesson.user_id === userId)
-      setFilteredUserLessons(filtered)
+      const userLevelId = user.level_id
 
-      const totalLessons = filtered.length
-      const completedLessons = filtered.filter(lesson => lesson.status === 'completo').length
-      const progress = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0
-      setCompletionPercentage(progress)
+      const filtered = userLessons.filter(userLesson =>
+        userLesson.user_id === userId && lessons.some(lesson => lesson.lessonId === userLesson.lesson_id && lesson.level_id === userLevelId)
+      );
+
+      setFilteredUserLessons(filtered);
+
+      const totalLessons = filtered.length;
+      const completedLessons = filtered.filter(lesson => lesson.status === 'completo').length;
+      const progress = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+      setCompletionPercentage(progress);
+
+      const userLevelData = level.find(l => l.id_level === user.level_id);
+      setUserLevel(userLevelData || null);
     }
-  }, [user, userLessons])
+  }, [user, userLessons, lessons, level]);
+
+  const toggleLessonStatus = (userLessonId) => {
+
+    const updatedLessons = filteredUserLessons.map(userLesson => {
+      if (userLesson.user_lesson_id === userLessonId) {
+        const newStatus = userLesson.status === 'en progreso' ? 'completo' : 'en progreso';
+        return { ...userLesson, status: newStatus };
+      }
+      return userLesson;
+    });
+
+    setFilteredUserLessons(updatedLessons);
+
+  }
+
+
+
 
   return (
     <div className='pl-4 pr-4 pt-2 mb-5 w-full'>
-
       <div className='bg-white pl-5 pr-5 pt-2 pb-2 w-full flex rounded-lg shadow-md shadow-black'>
-
         <div className='w-2/6 lg:w-1/6 lg:ml-3'>
           <h1 className='font-bold text-xl lg:text-2xl'>
-            Level A1
+            Level {userLevel ? userLevel.level : 'Level not found'}
           </h1>
           <h2 className='text-lg lg:text-xl'>
-            Block B
+            Block {userLevel ? userLevel.block : 'Block not found'}
           </h2>
         </div>
 
@@ -49,7 +73,6 @@ export default function Level() {
             </div>
           </div>
         </div>
-
       </div>
 
       <div className='bg-white pl-2 pr-2 pt-2 pb-2 w-full flex rounded-lg shadow-md shadow-black gap-y-2 mt-5 font-semibold'>
@@ -82,18 +105,21 @@ export default function Level() {
                   </p>
                 </Link>
 
-                <p className='w-1/6 flex items-start justify-end'>
+                <p
+                  className='w-1/6 flex items-start justify-end'>
                   {userLesson.status === 'en progreso' ? (
                     <img
                       src='/pending.svg'
                       alt='en progreso'
-                      className='w-8'
+                      className='w-8 cursor-pointer'
+                      onClick={() => toggleLessonStatus(userLesson.user_lesson_id)}
                     />
                   ) : userLesson.status === 'completo' ? (
                     <img
                       src='/check.svg'
                       alt='completado'
-                      className='w-8'
+                      className='w-8 cursor-pointer'
+                      onClick={() => toggleLessonStatus(userLesson.user_lesson_id)}
                     />
                   ) : (
                     userLesson.status || 'Not started'
@@ -107,7 +133,6 @@ export default function Level() {
           <p>No user lessons available.</p>
         )}
       </div>
-
     </div>
-  )
+  );
 }

@@ -3,9 +3,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, updateUser } from "../api/user.Api"
 import { allLessons, getLessonById } from "../api/lesson.Api";
-import { allUserLesson } from "../api/userLesson.Api"
+import { allUserLesson, updateUserLesson } from "../api/userLesson.Api"
 import { allIncidents, getIncidentById, createIncident, deletIncident } from "../api/incident.Api"
 import { allExamsQuestions, allExams, allQuestionsOptions } from "../api/exam.Api";
+import { allLevels } from "../api/level.Api";
 
 const englishContext = createContext()
 
@@ -14,6 +15,8 @@ export function EnglishProvider({ children }) {
 
     const [lesson, setLesson] = useState([])
     const [lessons, setLessons] = useState([])
+
+    const [level, setLevel] = useState([])
 
     const [userLessons, setUserLessons] = useState([])
 
@@ -69,9 +72,9 @@ export function EnglishProvider({ children }) {
         },
         onSuccess: data => {
 
-            alert('Perfil actualizado correctamente')
-            setUser(data.user)
-            setLesson('/home')
+            setUser(null)
+            localStorage.removeItem('authToken')
+            setLocation('/')
         }
     }) //EDITAR PERFIL
 
@@ -87,6 +90,38 @@ export function EnglishProvider({ children }) {
             }
         }
         fetchUserLessons()
+    }, [])
+
+    const updateUserLessonMutation = useMutation({
+        mutationKey: ['updateUserLesson'],
+        mutationFn: ({ id, updatedData }) => updateUserLesson(id, updatedData),
+        onError: error => {
+            console.error('Error updating user lesson:', error);
+            alert('Error al actualizar la lección de usuario.');
+        },
+        onSuccess: data => {
+            // Actualiza el estado local para reflejar el cambio
+            setUserLessons(prevUserLessons =>
+                prevUserLessons.map(lesson =>
+                    lesson.id === data.id ? data : lesson
+                )
+            );
+            alert('Lección de usuario actualizada exitosamente.');
+        }
+    })
+
+    /////////////////////////////NIVEL
+
+    useEffect(() => {
+        const fecthLevel = async () => {
+            try {
+                const res = await allLevels()
+                setLevel(res.data)
+            } catch (error) {
+                console.error('Error fetching level:', error)
+            }
+        }
+        fecthLevel()
     }, [])
 
     /////////////////////////////LECCIONES
@@ -114,7 +149,7 @@ export function EnglishProvider({ children }) {
 
     const getLessonOfTheDay = () => {
         const today = new Date();
-        const startDate = new Date("2025-01-20"); // Cambia esta fecha según el inicio del programa
+        const startDate = new Date("2025-02-14"); // Cambia esta fecha según el inicio del programa
         let dayCounter = 0;
 
         // Iterar desde el inicio hasta hoy, excluyendo fines de semana
@@ -240,11 +275,14 @@ export function EnglishProvider({ children }) {
             updateProfileMutation,
             //userlesson
             userLessons,
+            updateUserLessonMutation,
             //lesson
             lessons,
             lesson,
             fetchLessonById,
             getLessonOfTheDay,
+            //level
+            level,
             //incidents
             incident,
             incidents,

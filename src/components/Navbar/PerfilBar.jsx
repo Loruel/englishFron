@@ -36,7 +36,7 @@ export default function PerfilBar() {
 
                 <Link to={'/home'}>
                     <button
-                        className='bg-emerald-700 shadow-sm shadow-black text-white w-20 h-5 mr-2 rounded-full flex justify-center items-center text-sm transform transition-transform duration-300 ease-in-out hover:scale-105'>
+                        className='bg-emerald-700 shadow-sm shadow-black text-white w-20 h-5 mr-2 rounded-full flex justify-center items-center text-sm transform transition-transform duration-300 ease-in-out hover:scale-105 dark:bg-emerald-500'>
                         {language === 'en' ? 'Home' : 'Inicio'}
                         <img
                             className='ml-2 h-4'
@@ -44,7 +44,7 @@ export default function PerfilBar() {
                     </button>
                 </Link>
                 <button
-                    className='bg-red-600 shadow-sm shadow-black text-white w-20 h-5 mr-2 rounded-full flex justify-center items-center text-sm transform transition-transform duration-300 ease-in-out hover:scale-105'
+                    className='bg-red-700 shadow-sm shadow-black text-white w-20 h-5 mr-2 rounded-full flex justify-center items-center text-sm transform transition-transform duration-300 ease-in-out hover:scale-105 dark:bg-red-600'
                     onClick={handleLogout}>
                     {language === 'en' ? 'Logout' : 'Salir'}
                     <img
@@ -53,7 +53,7 @@ export default function PerfilBar() {
                 </button>
             </div>
 
-            <div className='bg-xustomBlue shadow-md shadow-black h-10 lg:h-16 w-full flex rounded-xl'>
+            <div className='bg-xustomBlue shadow-md shadow-black h-10 lg:h-16 w-full flex rounded-xl dark:bg-xustomBlueDark'>
 
                 <div className='w-1/3 lg:w-2/12 p-2 flex items-center justify-start'>
                     <Link

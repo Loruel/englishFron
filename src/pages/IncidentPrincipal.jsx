@@ -12,10 +12,13 @@ export default function IncidentPrincipal() {
         queryFn: allIncidents,
     })
 
-    console.log(incidents)
+    const userIncident = Array.isArray(incidents?.data)
+        ? incidents.data.filter(incident => incident?.id_user === user?.user_id)
+        : []
 
-    const userIncident = Array.isArray(incidents) ? incidents.filter(incident => incident?.user_id === user?.user_id) : []
-
+    /*  console.log('User:', user);
+     console.log('Incidents:', incidents);
+     console.log('Filtered incidents:', userIncident); */
 
     const getStatusColor = (status) => {
         const statusColors = {
@@ -49,25 +52,20 @@ export default function IncidentPrincipal() {
                                 .map((incident) => (
                                     <div
                                         key={incident.incident_id}
-                                        className='p-1 h-14 flex bg-gray-200 shadow-black shadow-sm rounded-lg mb-2 lg:h-24'>
-                                        <div className='h-full flex flex-col justify-center'>
-                                            <figure className={`w-4 h-4 rounded-full ml-2 ${getStatusColor(incident.status)}`}></figure>
+                                        className='flex bg-gray-200 shadow-black shadow-sm rounded-lg mb-3 lg:h-24'>
+                                        <div className='flex flex-col justify-center'>
+                                            <figure className={`w-4 h-4 rounded-full mr-1 ml-2 ${getStatusColor(incident.status)}`}></figure>
                                         </div>
-                                        <div className='p-1 mb-4 h-full flex flex-col justify-center'>
-                                            <div className='flex pl-2 gap-1 text-xs'>
+                                        <div className='flex flex-col justify-center '>
+                                            <div className='flex h-4 pl-2 gap-1 text-xs'>
                                                 <p>Creation date:</p>
                                                 <p className=''>
                                                     {incident.created_at.slice(0, 10)}
                                                 </p>
                                             </div>
-                                            <div className='flex p-0'>
-                                                <p className='ml-2 lg:font-semibold'>
-                                                    {incident.title}
-                                                </p>
-                                            </div>
-                                            <div className='hidden lg:block'>
-                                                <p className='h-9 text-xs ml-2 overflow-hidden text-ellipsis'>
-                                                    {incident.description}
+                                            <div className='flex'>
+                                                <p className='ml-2 mt-1 mb-1 font-semibold text-sm'>
+                                                    {incident.title.length > 70 ? incident.title.slice(0, 70) + '...' : incident.title}
                                                 </p>
                                             </div>
                                             {/* <div className='p-1 flex justify-start text-xs'>
@@ -126,25 +124,20 @@ export default function IncidentPrincipal() {
                                 .map((incident) => (
                                     <div
                                         key={incident.incident_id}
-                                        className='p-1 h-14 flex bg-gray-200 shadow-black shadow-sm rounded-lg mb-2 lg:h-24'>
-                                        <div className='h-full flex flex-col justify-center'>
-                                            <figure className={`w-4 h-4 rounded-full ml-2 ${getStatusColor(incident.status)}`}></figure>
+                                        className='flex bg-gray-200 shadow-black shadow-sm rounded-lg mb-3 lg:h-24'>
+                                        <div className='flex flex-col justify-center'>
+                                            <figure className={`w-4 h-4 rounded-full mr-1 ml-2 ${getStatusColor(incident.status)}`}></figure>
                                         </div>
-                                        <div className='p-1 mb-4 h-full flex flex-col justify-center'>
-                                            <div className='flex pl-2 gap-1 text-xs'>
+                                        <div className='flex flex-col justify-center '>
+                                            <div className='flex h-4 pl-2 gap-1 text-xs'>
                                                 <p>Creation date:</p>
                                                 <p className=''>
                                                     {incident.created_at.slice(0, 10)}
                                                 </p>
                                             </div>
-                                            <div className='flex p-0'>
-                                                <p className='ml-2 lg:font-semibold'>
-                                                    {incident.title}
-                                                </p>
-                                            </div>
-                                            <div className='hidden lg:block'>
-                                                <p className='h-9 text-xs ml-2 overflow-hidden text-ellipsis'>
-                                                    {incident.description}
+                                            <div className='flex'>
+                                                <p className='ml-2 mt-1 mb-1 font-semibold text-sm'>
+                                                    {incident.title.length > 70 ? incident.title.slice(0, 70) + '...' : incident.title}
                                                 </p>
                                             </div>
                                             {/* <div className='p-1 flex justify-start text-xs'>

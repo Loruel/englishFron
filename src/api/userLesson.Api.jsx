@@ -10,3 +10,10 @@ export const getUserLessonByIdUser = async (id) => {
     return res.data
 }
 
+export const updateUserLesson = async ({ token, userData }) => {
+    const res = await axios.patch(`http://localhost:3000/api/userlesson/${id}`, userData, {
+        headers: { Authorization: `Bearer ${token}` }
+    })
+    return res.data
+};
+

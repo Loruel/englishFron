@@ -15,7 +15,7 @@ export default function Exams() {
     const handleModalConfirm = () => {
         if (selectedExam) {
             toggleModal()
-            navigate(`/exam/${selectedExam.id}`)
+            navigate(`/exam/${selectedExam.exam_id}`)
         }
     };
 

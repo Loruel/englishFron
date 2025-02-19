@@ -6,6 +6,7 @@ export default function Lesson() {
     const { getLessonOfTheDay } = englishFunction();
     const [lessonOfTheDay, setLessonOfTheDay] = useState(null)
 
+
     useEffect(() => {
         // Obtener la lección del día y almacenarla en el estado local
         const lesson = getLessonOfTheDay();
